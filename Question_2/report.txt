@@ -1,0 +1,25 @@
+Secure Project Workspace Setup Report
+
+1. Directory Structure:
+   - ProjectWorkspace/
+     - backups/
+     - docs/
+       - plan.txt
+       - project_plan.txt
+     - logs/
+     - src/
+       - main.c
+     - testdir/
+     - testfile.txt
+2. Umask Value: 0022
+3. File Permissions:
+   - Before modification (docs dir): drwxr-xr-x
+   - After modification (docs dir): drwx------
+   - plan.txt: -rwxr-x---
+   - project_plan.txt: -rw-------
+   - main.c: -rw-r--r--
+   - testfile.txt: -rw-r--r--
+4. Ownership: User is set to sharun and group is set to sharun.
+
+Explanation of Permissions:
+By setting the 'docs' directory permissions to 700, I have ensured that only the file owner can view, modify, or execute files within this directory. This protects sensitive project documentation from being accessed or tampered with by other users on the system.

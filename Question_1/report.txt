@@ -1,0 +1,23 @@
+Environment Verification Report
+
+1. Username: sharun
+2. User ID and Groups: uid=1000(sharun) gid=1000(sharun) groups=1000(sharun),4(adm),24(cdrom),27(sudo),30(dip),46(plugdev),100(users)
+3. Current Shell: /bin/bash
+4. Current Working Directory: /home/sharun
+5. Workspace Contents:
+   - .bash_history
+   - .bash_logout
+   - .bashrc
+   - .cache
+   - .config
+   - .local
+   - .motd_shown
+   - .profile
+   - .viminfo
+   - Linux-Lab-Assignment
+   - ProjectWorkspace
+   - linux-lab-assignment
+6. Network Connectivity: Successful. 4 packets transmitted, 4 received, 0% packet loss, rtt min/avg/max/mdev = 62.270/106.481/219.327/65.633 ms.
+
+Observations:
+The environment is correctly configured. My user is part of the standard Linux admin groups, and the default shell is configured to /bin/bash. The network verification confirms that the machine can communicate with external servers without packet loss.

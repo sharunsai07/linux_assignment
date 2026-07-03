@@ -1,0 +1,41 @@
+Storage Health Assessment and Documentation
+
+1. Available Storage Devices:
+   - `sda` 356.9M disk
+   - `sdb` 159.4M disk
+   - `sdc` 2G disk [SWAP]
+   - `sdd` 1T disk, the primary Linux disk for WSL and the root filesystem.
+
+2. Mounted File Systems:
+   - `/dev/sdd` is mounted as `/` with 1007G total capacity and also appears under WSL integration paths.
+   - `rootfs` is mounted on `/init`.
+   - Several `tmpfs` and `none` file systems provide ephemeral runtime mounts for `/run`, `/run/lock`, `/run/shm`, `/mnt/wsl`, `/mnt/wslg`, and WSL-related runtime paths.
+   - Windows mount points are visible: `C:\` mounted at `/mnt/c`.
+
+3. Disk Usage Statistics:
+   - `/dev/sdd`: 1007G total, 1.4G used, 955G available, 1% usage.
+   - `/mnt/c`: 933G total, 136G used, 798G available, 15% usage.
+   - `/usr/lib/wsl/drivers`: 933G total, 136G used, 798G available, 15% usage.
+   - `none` and tmpfs mounts show negligible usage across runtime paths.
+
+4. Inode Utilization:
+   - `/dev/sdd`: 67,108,864 inodes total, 44,987 used, 67,063,877 free, 1% usage.
+   - `rootfs`: 994,995 inodes total, 12 used, 994,983 free, 1% usage.
+   - `none` mounts for `/usr/lib/modules`, `/mnt/wsl`, `/mount/wslg`, `/run`, `/run/lock`, and `/run/shm` all show 1% inode usage or lower.
+   - The `drivers` and `C:\` mounts expose special inode counts (`999` total with `-999001` free) due to WSL/9p translation.
+
+5. Mount Options:
+   - `/dev/sdd` on `/` type ext4 mounted with `(rw,relatime,discard,errors=remount-ro,data=ordered)`.
+   - `/dev/sdd` also appears mounted on `/mnt/wslg/distro` as ext4 with the same options.
+   - `drivers` on `/usr/lib/wsl/drivers` type 9p mounted with `(ro,nosuid,nodev,noatime,aname=drivers;fmask=222,dmask=222,cache=0x5,access=client,msize=65536,trans=fd,rfd=8,wfd=8)`.
+   - `none` on `/usr/lib/wsl` is mounted as an overlay filesystem with read-write upper and lower directories configured by WSL.
+   - Standard runtime mounts such as `devtmpfs`, `sysfs`, `proc`, `tmpfs`, and `cgroup2` are present with typical Linux mount options.
+
+6. Storage Health Observations:
+   - The primary Linux root volume is in excellent health, with only 1% utilization and abundant free space.
+   - Inode availability is likewise excellent, with almost no risk of inode exhaustion.
+   - Windows-mounted volumes and WSL driver mounts have higher reported usage percentages but remain within safe limits.
+
+7. Recommendations:
+   - Continue monitoring `/mnt/c` usage because it is the most heavily consumed volume.
+   - Maintain regular cleanup of temporary files and unused data on WSL and Windows-mounted volumes to prevent future storage pressure.

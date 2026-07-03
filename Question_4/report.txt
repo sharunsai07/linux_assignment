@@ -1,0 +1,34 @@
+File Access and I/O Investigation Report
+
+1. Open Files Identified:
+   - `lsof log.txt` checked whether the newly created `log.txt` file was currently open by any process.
+   - `lsof | head` displayed the first open file entries, showing system processes like `systemd` and `init` accessing `/proc` file descriptors.
+
+2. Resource Limits:
+   - `ulimit -a` showed the shell resource limits, including:
+     - real-time non-blocking time (microseconds, -R) unlimited
+     - core file size (blocks, -c) 0
+     - data seg size (kbytes, -d) unlimited
+     - scheduling priority (-e) 0
+     - file size (blocks, -f) unlimited
+     - pending signals (-i) 31095
+     - max locked memory (kbytes, -l) 65536
+     - max memory size (kbytes, -m) unlimited
+     - open files (-n) 10240
+     - pipe size (512 bytes, -p) 8
+     - POSIX message queues (bytes, -q) 819200
+     - real-time priority (-r) 0
+     - stack size (kbytes, -s) 8192
+     - cpu time (seconds, -t) unlimited
+     - max user processes (-u) 31095
+     - virtual memory (kbytes, -v) unlimited
+     - file locks (-x) unlimited
+   These limits define how much the shell and its child processes can allocate for I/O and process resources.
+
+3. Redirection Results:
+   - `output.txt`: Captured the standard output from `echo "Hello World"`, containing the text `Hello World`.
+   - `error.txt`: Captured the standard error from `ls nonexistentfile`, containing `ls: cannot access 'nonexistentfile': No such file or directory`.
+   - `combined.txt`: Captured both stdout and stderr from `ls log.txt nonexistentfile > combined.txt 2>&1`, preserving the output line `log.txt` and the error message in a single file.
+
+Explanation of Linux I/O:
+Unix-like systems treat files, devices, and data streams as file descriptors. By using redirection operators such as `>` for stdout and `2>` for stderr, the shell allows separate or combined capture of output and errors into files for later inspection.

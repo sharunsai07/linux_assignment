@@ -1,0 +1,19 @@
+Link Analysis Report
+
+1. Inode Numbers
+original.txt and hardlink.txt shared the same inode number (44971).
+symlink.txt had a different inode number (44975).
+
+2. Hard Link vs Symbolic Link
+A hard link points directly to the file data using the same inode and increases the file's link count.
+A symbolic link points to the target file path and has its own inode with a mode of `lrwxrwxrwx`.
+
+3. Effect of Deleting the Original File
+After deleting original.txt, hardlink.txt still contained the original data and remained readable.
+The symbolic link symlink.txt became broken because it referenced the removed original file path.
+
+4. Metadata
+Metadata was collected using the stat command for original.txt, hardlink.txt, and symlink.txt. It confirmed the original and hard link share inode 44971 and have 2 links, while symlink.txt has inode 44975, 1 link, and points to `original.txt`.
+
+5. Conclusion
+Hard links remain functional after deleting the original file because they refer to the same underlying inode. Symbolic links depend on the original file path and become invalid when the original file is removed.
